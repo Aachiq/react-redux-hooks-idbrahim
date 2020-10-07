@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Consumer } from '../Provider';
+import TextInputGroup from '../helpers/TextInputGroup'
 
 class AddContact extends Component {
     state = {
@@ -43,37 +44,27 @@ class AddContact extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <h4 className="card-title">Add Contact</h4>
-                                        <div className="form-group">
-                                            <label htmlFor="name">Name</label>
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                className="form-control"
-                                                defaultValue={name}
-                                                onChange={this.onChangeInput}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="email">Email</label>
-                                            <input
-                                                type="text"
-                                                name="email"
-                                                className="form-control"
-                                                defaultValue={email}
-                                                onChange={this.onChangeInput}
-                                            />
-
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="phone">Phone</label>
-                                            <input
-                                                type="text"
-                                                name="phone"
-                                                className="form-control"
-                                                defaultValue={phone}
-                                                onChange={this.onChangeInput}
-                                            />
-                                        </div>
+                                        <TextInputGroup 
+                                             label="name"
+                                             type="text"
+                                             name="name"
+                                             value={name}
+                                             onChange={this.onChangeInput}   
+                                        />
+                                        <TextInputGroup 
+                                             label="email"
+                                             type="email"
+                                             name="email"
+                                             value={email}
+                                             onChange={this.onChangeInput}   
+                                        />
+                                        <TextInputGroup 
+                                             label="phone"
+                                             type="text"
+                                             name="phone"
+                                             value={phone}
+                                             onChange={this.onChangeInput}   
+                                        />
                                         <button className="btn btn-success btn-block"> Add New Contact</button>
                                     </div>
                                 </div>

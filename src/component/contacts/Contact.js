@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { Consumer } from '../Provider';
 import './contact.css'
 class Contact extends Component {
 
@@ -13,45 +14,56 @@ class Contact extends Component {
             showContactToggle: !this.state.showContactToggle
         });
     }
-    onDeleteClick = () => {
-    console.log('deleted clicked')
-    this.props.deleteContactFromChild();
+    onDeleteClick = (id, dispatch) => {
+        dispatch({
+            type: 'DELETE_CONTACT',
+            payload: id
+        })
     }
 
     render() {
-        const { name, tel, email } = this.props.data;
+        const { id, name, tel, email } = this.props.data;
         return (
-            <div className="card">
-                <div className="card-body">
-                    <h4 className="card-title">
-                        {name}
-                        <i
-                            onClick={this.showContact.bind(this, name)}
-                            className="fa fa-sort-down" style={{ cursor: 'pointer'}}
-                        >
-                        </i>
-                        <i
-                            style={{
-                                color: 'red',
-                                float: 'right',
-                                cursor: 'pointer'
-                            }}
-                            onClick={this.onDeleteClick}  
-                            className="fa fa-times">
-                        </i>
-                    </h4>
-                    <div className="card-text">
-                        {(this.state.showContactToggle) ? (
+            <Consumer>
+                {value => {
+                    const { dispatch } = value;
+                    return (
 
-                            <ul className="list-groudiv">
-                                <li className="list-group-item">{tel}</li>
-                                <li className="list-group-item">{email}</li>
-                            </ul>
-                        ) : null
-                        }
-                    </div>
-                </div>
-            </div>
+                        <div className="card">
+                            <div className="card-body">
+                                <h4 className="card-title">
+                                    {name}
+                                    <i
+                                        onClick={this.showContact.bind(this, name)}
+                                        className="fa fa-sort-down"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                    </i>
+                                    <i
+                                        style={{
+                                            color: 'red',
+                                            float: 'right',
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={this.onDeleteClick.bind(this, id, dispatch)}
+                                        className="fa fa-times">
+                                    </i>
+                                </h4>
+                                <div className="card-text">
+                                    {(this.state.showContactToggle) ? (
+
+                                        <ul className="list-groudiv">
+                                            <li className="list-group-item">{tel}</li>
+                                            <li className="list-group-item">{email}</li>
+                                        </ul>
+                                    ) : null
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }}
+            </Consumer>
         );
     }
 }

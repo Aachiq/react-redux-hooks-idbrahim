@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Consumer } from '../Provider';
 import axios from 'axios';
 
@@ -16,16 +17,16 @@ class Contact extends Component {
             showContactToggle: !this.state.showContactToggle
         });
     }
-    onDeleteClick = (id, dispatch) => {
-        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-            .then((res) =>
-
-                dispatch({
-                    type: 'DELETE_CONTACT',
-                    payload: id
-                })
-            )
-            .catch((err) => console.log(err.message))
+    onDeleteClick = async (id, dispatch) => {
+     try {
+        const res = await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+        dispatch({
+            type: 'DELETE_CONTACT',
+            payload: id
+        })
+     } catch (error) {
+       console.error(error.message);  
+     }
     }
 
     render() {
@@ -55,6 +56,17 @@ class Contact extends Component {
                                         onClick={this.onDeleteClick.bind(this, id, dispatch)}
                                         className="fa fa-times">
                                     </i>
+                                    <Link to={`/contact/edit/${id}`}>
+                                    <i
+                                    style={{
+                                        color: 'orange',
+                                        float: 'right',
+                                        cursor: 'pointer',
+                                        marginRight:'8px' 
+                                    }}
+                                    className="fa fa-pencil">
+                                </i>
+                                </Link>
                                 </h4>
                                 <div className="card-text">
                                     {(this.state.showContactToggle) ? (

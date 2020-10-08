@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Consumer } from '../Provider';
 import TextInputGroup from '../helpers/TextInputGroup'
 import axios from 'axios';
-class AddContact extends Component {
+class EditContact extends Component {
     state = {
         name: '',
         email: '',
@@ -10,6 +10,17 @@ class AddContact extends Component {
         errors: {
 
         }
+    }
+
+    async componentDidMount() {
+        const id = this.props.match.params.id;
+        const res = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
+        const { name, email, phone } = res.data
+        this.setState({
+            name: name,
+            email: email,
+            phone: phone
+        });
     }
     onChangeInput = (e) => this.setState({
         [e.target.name]: e.target.value,
@@ -31,15 +42,16 @@ class AddContact extends Component {
             this.setState({ errors: { email: "the email is required!" } })
             return;
         }
-        const newContact = {
+        const updateContact = {
             name: name,
             email: email,
             phone: phone
         }
         try {
-            const res = await axios.post('https://jsonplaceholder.typicode.com/users', newContact)
+            const id = this.props.match.params.id;
+            const res = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, updateContact);
             dispatch({
-                type: 'ADD_CONTACT',
+                type: 'EDIT_CONTACT',
                 payload: res.data
             })
         } catch (error) {
@@ -66,7 +78,7 @@ class AddContact extends Component {
                             <form onSubmit={this.submit.bind(this, dispatch, value.contacts.length)}>
                                 <div className="card">
                                     <div className="card-body">
-                                        <h4 className="card-title">Add Contact</h4>
+                                        <h4 className="card-title">Edit Contact</h4>
                                         <TextInputGroup
                                             label="name"
                                             type="text"
@@ -91,7 +103,7 @@ class AddContact extends Component {
                                             onChange={this.onChangeInput}
                                             error={errors.phone}
                                         />
-                                        <button className="btn btn-success btn-block"> Add New Contact</button>
+                                        <button className="btn btn-danger btn-block"> Update Contact</button>
                                     </div>
                                 </div>
                             </form>
@@ -105,4 +117,4 @@ class AddContact extends Component {
     }
 }
 
-export default AddContact;
+export default EditContact;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Consumer } from '../Provider';
 import TextInputGroup from '../helpers/TextInputGroup'
-
+import axios from 'axios';
 class AddContact extends Component {
     state = {
         name: '',
@@ -16,8 +16,8 @@ class AddContact extends Component {
     });
 
     submit = (dispatch, size, e) => {
-        const { name, email, phone } = this.state;
         e.preventDefault();
+        const { name, email, phone } = this.state;
 
         if( name === "" ){
             this.setState({errors : { name: "the name is required!"}})
@@ -31,15 +31,19 @@ class AddContact extends Component {
             this.setState({errors : { email: "the email is required!"}})
             return;
         }
-        dispatch({
-            type: 'ADD_CONTACT',
-            payload: {
-                id: size + 1,
+        const newContact = {
                 name: name,
                 email: email,
-                tel: phone
-            }
-        });
+                phone: phone
+        }
+        axios.post('https://jsonplaceholder.typicode.com/users', newContact)
+        .then(res =>  dispatch({
+            type: 'ADD_CONTACT',
+            payload: res.data
+        })
+        );
+
+       
         this.setState({
             name: '',
             email: '',

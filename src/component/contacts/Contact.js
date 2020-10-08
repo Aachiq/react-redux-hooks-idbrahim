@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../Provider';
+import axios from 'axios';
+
 import './contact.css'
 class Contact extends Component {
 
@@ -15,14 +17,19 @@ class Contact extends Component {
         });
     }
     onDeleteClick = (id, dispatch) => {
-        dispatch({
-            type: 'DELETE_CONTACT',
-            payload: id
-        })
+        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+            .then((res) =>
+
+                dispatch({
+                    type: 'DELETE_CONTACT',
+                    payload: id
+                })
+            )
+            .catch((err) => console.log(err.message))
     }
 
     render() {
-        const { id, name, tel, email } = this.props.data;
+        const { id, name, phone, email } = this.props.data;
         return (
             <Consumer>
                 {value => {
@@ -53,7 +60,7 @@ class Contact extends Component {
                                     {(this.state.showContactToggle) ? (
 
                                         <ul className="list-groudiv">
-                                            <li className="list-group-item">{tel}</li>
+                                            <li className="list-group-item">{phone}</li>
                                             <li className="list-group-item">{email}</li>
                                         </ul>
                                     ) : null
@@ -69,13 +76,13 @@ class Contact extends Component {
 }
 Contact.defaultProps = {
     name: "My name",
-    tel: "0000",
+    phone: "0000",
     email: "my@email.com"
 }
 
 Contact.propTypes = {
     name: PropTypes.string.isRequired,
-    tel: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
 }
 export default Contact;

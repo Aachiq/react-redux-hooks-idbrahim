@@ -19,7 +19,6 @@ class AddContact extends Component {
         const { name, email, phone } = this.state;
         e.preventDefault();
 
-        
         if( name === "" ){
             this.setState({errors : { name: "the name is required!"}})
             return;
@@ -47,6 +46,7 @@ class AddContact extends Component {
             phone: '',
             errors :{}
         });
+        this.props.history.push('/');
     };
             render() {
                 const { name, email, phone, errors } = this.state;

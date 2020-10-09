@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { UserContext } from '../context/UserContext';
 
 function AddProduct({ addNewProduct }) {
+    const {loggedIn,setLoggedIn} = useContext(UserContext);
+
     const [product, setProduct] = useState({ name: '', price: 0 })
     const handleForm = e => {
 
@@ -21,12 +23,13 @@ function AddProduct({ addNewProduct }) {
         setProduct({ name: '', price: 0 })
 
     }
-
+    const changeValue = () => {
+        setLoggedIn(!loggedIn)
+}
     return (
         <div>
-            <UserContext.Consumer>
-                {loggedIn => console.log("AddProduct: ", loggedIn)}
-            </UserContext.Consumer>
+            <h1>{loggedIn ? 'You\'re Logged' : 'Logout'}</h1>
+            <button onClick={changeValue} className="btn btn-success">Toogle</button>
             <h3>Create a Product</h3>
             <form onSubmit={submitForm}>
                 <div className="form-group">

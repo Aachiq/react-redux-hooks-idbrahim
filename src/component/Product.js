@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AddProduct from './AddProduct';
 import { UserContext } from '../context/UserContext'
 
 const Product = () => {
-
+    const loggedIn = useContext(UserContext)
     const [listProduct, setListProduct] = useState([]);
     const [counter, setCounter] = useState(0);
     useEffect(() => {
@@ -20,9 +20,8 @@ const Product = () => {
 
     return (
         <div>
-            <UserContext.Consumer>
-                { loggedIn => console.log("Product: " , loggedIn)}
-            </UserContext.Consumer>
+                { loggedIn ? 'You\'re LoggedIn' : 'Logout'}
+       
             <div className="text-center">
                 <h3>{counter}</h3>
                 <button onClick={increment} className="btn btn-success">increment</button>

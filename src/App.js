@@ -4,12 +4,12 @@ import Product from './component/Product'
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   return (
     <div className="App container">
       <div className="row">
         <div className="col">
-          <UserContext.Provider value={loggedIn}>
+          <UserContext.Provider value={{loggedIn,setLoggedIn}}>
             <Product />
           </UserContext.Provider>
         </div>

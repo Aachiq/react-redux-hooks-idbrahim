@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddProduct from './AddProduct';
 
 const Product = () => {
 
-    const [listProduct, setListProduct] = useState([
-        { id: 1, name: 'Iphone', price: 1200 },
-        { id: 2, name: 'Huawei', price: 1000 },
-        { id: 3, name: 'Samsung', price: 1100 },
-    ]);
+    const [listProduct, setListProduct] = useState([]);
+    const [counter, setCounter] = useState(0);
+    useEffect(() => {
+        console.log("all")
+    })
+ 
     const addNewProduct = (newProduct) => {
-        setListProduct([newProduct,...listProduct]);
+        setListProduct([newProduct, ...listProduct]);
+    }
+
+    const increment = () => {
+        setCounter(counter + 1)
     }
 
     return (
         <div>
-        <AddProduct addNewProduct={addNewProduct} />
-        <hr/>
+            <div className="text-center">
+                <h3>{counter}</h3>
+                <button onClick={increment} className="btn btn-success">increment</button>
+            </div>
+            <AddProduct addNewProduct={addNewProduct} />
+            <hr />
             <table className="table">
                 <thead>
                     <tr>

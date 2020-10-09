@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from '../context/UserContext';
 
 function AddProduct({ addNewProduct }) {
     const [product, setProduct] = useState({ name: '', price: 0 })
@@ -17,12 +18,15 @@ function AddProduct({ addNewProduct }) {
             ...product
         }
         addNewProduct(newProduct);
-        setProduct({name:'', price:0})
+        setProduct({ name: '', price: 0 })
 
     }
 
     return (
         <div>
+            <UserContext.Consumer>
+                {loggedIn => console.log("AddProduct: ", loggedIn)}
+            </UserContext.Consumer>
             <h3>Create a Product</h3>
             <form onSubmit={submitForm}>
                 <div className="form-group">

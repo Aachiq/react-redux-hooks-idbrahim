@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddProduct from './AddProduct';
+import { UserContext } from '../context/UserContext'
 
 const Product = () => {
 
@@ -19,6 +20,9 @@ const Product = () => {
 
     return (
         <div>
+            <UserContext.Consumer>
+                { loggedIn => console.log("Product: " , loggedIn)}
+            </UserContext.Consumer>
             <div className="text-center">
                 <h3>{counter}</h3>
                 <button onClick={increment} className="btn btn-success">increment</button>
